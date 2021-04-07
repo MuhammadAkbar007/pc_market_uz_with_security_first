@@ -2,6 +2,8 @@ package uz.pdp.pc_market_uz_with_security_first.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,6 +18,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.Optional;
 
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
 @RestController
 @RequestMapping("/api/attachment")
 public class AttachmentController {
@@ -26,6 +29,7 @@ public class AttachmentController {
     @Autowired
     AttachmentContentRepository attachmentContentRepository;
 
+//    @PreAuthorize("hasRole('admin')")
     @PostMapping
     public ResponseEntity<?> uploadToDb(MultipartHttpServletRequest request) throws IOException {
         Iterator<String> fileNames = request.getFileNames();
@@ -50,6 +54,7 @@ public class AttachmentController {
         return ResponseEntity.status(409).body("Error while adding !");
     }
 
+//    @PreAuthorize("hasRole('admin')")
     @GetMapping("/{id}")
     public void get(@PathVariable Integer id, HttpServletResponse response) throws IOException {
         Optional<Attachment> optionalAttachment = attachmentRepository.findById(id);
