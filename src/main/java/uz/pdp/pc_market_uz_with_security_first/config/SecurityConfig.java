@@ -20,10 +20,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
 
-                .antMatchers(HttpMethod.POST, "/api/").hasAnyRole("SUPER_ADMIN", "moderator")
-                .antMatchers(HttpMethod.GET, "/api/").hasAnyRole("SUPER_ADMIN", "moderator", "operator")
-                .antMatchers(HttpMethod.PUT, "/api/").hasAnyRole("SUPER_ADMIN", "moderator")
-                .antMatchers(HttpMethod.DELETE, "/api/").hasRole("SUPER_ADMIN")
+                .antMatchers(HttpMethod.PUT, "/api/product/**").hasAnyRole("SUPER_ADMIN", "MODERATOR")
+                .antMatchers(HttpMethod.POST, "/api/product/**").hasAnyRole("SUPER_ADMIN", "OPERATOR", "MODERATOR")
+                .antMatchers(HttpMethod.GET, "/api/product/**").hasAnyRole("SUPER_ADMIN", "OPERATOR", "MODERATOR")
+                .antMatchers(HttpMethod.DELETE, "/api/product/**").hasRole("SUPER_ADMIN")
+                .antMatchers("/api/order/**").hasAnyRole("OPERATOR", "SUPER_ADMIN")
+                .antMatchers("/api/**").hasRole("SUPER_ADMIN")
 
                 .anyRequest()
                 .authenticated()
@@ -39,11 +41,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
 
-                .withUser("MODERATOR").password(passwordEncoder().encode("moderator123")).roles("moderator")
+                .withUser("MODERATOR").password(passwordEncoder().encode("moderator123")).roles("MODERATOR")
 
                 .and()
 
-                .withUser("OPERATOR").password(passwordEncoder().encode("operator123")).roles("operator");
+                .withUser("OPERATOR").password(passwordEncoder().encode("operator123")).roles("OPERATOR");
     }
 
     @Bean
