@@ -20,10 +20,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
 
-                .antMatchers(HttpMethod.GET, "/api/").hasAnyRole("admin", "moderator", "operator")
-                .antMatchers(HttpMethod.POST, "/api/").hasAnyRole("admin", "moderator")
-                .antMatchers(HttpMethod.PUT, "/api/").hasAnyRole("admin", "moderator")
-                .antMatchers("/api/").hasRole("SUPER_ADMIN")
+                .antMatchers(HttpMethod.POST, "/api/").hasAnyRole("SUPER_ADMIN", "moderator")
+                .antMatchers(HttpMethod.GET, "/api/").hasAnyRole("SUPER_ADMIN", "moderator", "operator")
+                .antMatchers(HttpMethod.PUT, "/api/").hasAnyRole("SUPER_ADMIN", "moderator")
+                .antMatchers(HttpMethod.DELETE, "/api/").hasRole("SUPER_ADMIN")
 
                 .anyRequest()
                 .authenticated()
@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .inMemoryAuthentication()
-                .withUser("SUPER_ADMIN").password(passwordEncoder().encode("admin123")).roles("admin")
+                .withUser("SUPER_ADMIN").password(passwordEncoder().encode("admin123")).roles("SUPER_ADMIN")
 
                 .and()
 
