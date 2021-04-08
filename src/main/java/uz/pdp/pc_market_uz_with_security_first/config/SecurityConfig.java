@@ -21,7 +21,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
 
                 .antMatchers(HttpMethod.PUT, "/api/product/**").hasAnyRole("SUPER_ADMIN", "MODERATOR")
-                .antMatchers(HttpMethod.POST, "/api/product/**").hasAnyRole("SUPER_ADMIN", "OPERATOR", "MODERATOR")
+                .antMatchers(HttpMethod.POST, "/api/product/**").hasAnyRole("SUPER_ADMIN", "MODERATOR")
                 .antMatchers(HttpMethod.GET, "/api/product/**").hasAnyRole("SUPER_ADMIN", "OPERATOR", "MODERATOR")
                 .antMatchers(HttpMethod.DELETE, "/api/product/**").hasRole("SUPER_ADMIN")
                 .antMatchers("/api/order/**").hasAnyRole("OPERATOR", "SUPER_ADMIN")
